@@ -1,0 +1,17 @@
+{
+    "contents" : "getTotalDebtToLTMEbitda <- function( ticker ){\n        \n        ## load librarys\n        library(quantmod)\n        library(xtable)\n        \n        ## download and store data\n        inter <- getFinancials(ticker, src = \"yahoo\", auto.assign = FALSE)\n        BS_A <- viewFinancials(inter, \"BS\", \"A\")\n        BS_Q <- viewFinancials(inter, \"BS\", \"Q\")\n        IS_A <- viewFinancials(inter, \"IS\", \"A\")\n        IS_Q <- viewFinancials(inter, \"IS\", \"Q\")\n        CF_A <- viewFinancials(inter, \"CF\", \"A\")\n        CF_Q <- viewFinancials(inter, \"CF\", \"Q\")\n        \n        \n        ## store relevant data for calculating LTM EBITDA and TOTAL DEBT\n        totaldebt <- BS_Q[\"Total Debt\",1]\n        ebit <- NULL\n        \n        ## calculate ebit for the past 4 quarters\n        for(i in 1:4){\n                ebit[i] <- IS_Q[\"Gross Profit\", i] - IS_Q[\"Selling/General/Admin. Expenses, Total\", i]\n        }\n        \n        DandA <- NULL\n        adjusted.DandA <- NULL\n        \n        ## calculate depreciation and amortization for the past 4 quarters\n        for(i in 1:4){\n                DandA[i] <- CF_Q[\"Depreciation/Depletion\",i] + CF_Q[\"Amortization\",i]\n        }\n        \n        inter.sum <- sum(DandA) / 10\n        \n        adjusted.DandA = c(inter.sum, inter.sum, inter.sum, inter.sum)\n        \n        ebitda <- ebit + adjusted.DandA\n        \n        LTMebitda <- sum(ebitda)\n        \n        ratio <- totaldebt / LTMebitda\n        \n        df <- data.frame(totaldebt, LTMebitda, ratio)\n        \n        colnames(df) <- c(\"Total Debt\", \"LTM EBITDA\", \"Total Debt / LTM EBITDA\")\n        \n        df\n        xtab <- xtable(df, caption = \"Total Debt and LTM EBITDA in Millions\")\n        \n        print.xtable(xtab, include.rownames = FALSE, caption.placement = \"top\")\n}",
+    "created" : 1423103314755.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3190912802",
+    "id" : "6E683E5E",
+    "lastKnownWriteTime" : 1423103336,
+    "path" : "~/Desktop/R Workspaces and data/TwinHaven/R/getTotalDebtToLTMEbitda.R",
+    "project_path" : "R/getTotalDebtToLTMEbitda.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}

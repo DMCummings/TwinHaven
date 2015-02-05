@@ -1,0 +1,16 @@
+{
+    "contents" : "Package: TwinHaven\nType: Package\nTitle: Quantitative Equity Analysis Applied to Value-Oriented Investing\nVersion: 1.0.1\nDate: 2015-02-04\nAuthor: Alan Felix, Duncan Cummings, Jean-Luc Etienne\nMaintainer: <acf2@williams.edu>\nDescription: Sweave formatted paper and associated functions\nLicense: GPL-3\nLazyData: TRUE\nVignetteBuilder: knitr\nSuggests: knitr\nDepends:\n        quantmod,\n        xtable\n",
+    "created" : 1423103557048.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1858169641",
+    "id" : "C43D9DF1",
+    "lastKnownWriteTime" : 1423103703,
+    "path" : "~/Desktop/R Workspaces and data/TwinHaven/DESCRIPTION",
+    "project_path" : "DESCRIPTION",
+    "properties" : {
+    },
+    "source_on_save" : false,
+    "type" : "dcf"
+}

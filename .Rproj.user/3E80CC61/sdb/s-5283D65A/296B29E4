@@ -1,0 +1,17 @@
+{
+    "contents" : "getDebtToEquityRatio <- function( ticker ){\n        \n        ## load librarys\n        library(quantmod)\n        library(xtable)\n        \n        ## download and store data\n        inter <- getFinancials(ticker, src = \"yahoo\", auto.assign = FALSE)\n        BS_A <- viewFinancials(inter, \"BS\", \"A\")\n        BS_Q <- viewFinancials(inter, \"BS\", \"Q\")\n        IS_A <- viewFinancials(inter, \"IS\", \"A\")\n        IS_Q <- viewFinancials(inter, \"IS\", \"Q\")\n        CF_A <- viewFinancials(inter, \"CF\", \"A\")\n        CF_Q <- viewFinancials(inter, \"CF\", \"Q\")\n        \n        ## obtain current liabilities, total equity, and debt to equity ratio\n        currentliabilities <- BS_Q[\"Total Current Liabilities\",1]\n        totalequity <- BS_Q[\"Total Equity\",1]\n        debttoequityratio <- currentliabilities/totalequity\n        \n        ## turn it into a data frame\n        df <- data.frame(currentliabilities, totalequity, debttoequityratio)\n        \n        df <- data.frame(t(df), row.names = c(\"Current Liabilities\", \"Total Equity\", \"Debt to Equity Ratio\"))\n        \n        xtable(df)\n}",
+    "created" : 1423103420927.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2489380574",
+    "id" : "296B29E4",
+    "lastKnownWriteTime" : 1423103487,
+    "path" : "~/Desktop/R Workspaces and data/TwinHaven/R/getDebtToEquityRatio.R",
+    "project_path" : "R/getDebtToEquityRatio.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}

@@ -1,0 +1,193 @@
+%\VignetteIndexEntry{analysis}
+%\VignetteEngine{knitr::knitr}
+
+\documentclass{article}
+\usepackage{indentfirst}
+
+\begin{document}
+\SweaveOpts{concordance=TRUE}
+
+\title{\LARGE Quantitative Equity Analysis Applied to Value-Oriented Investing: \\ \large Applying data science methods and techniques to Distressed-Debt security evaluation \\ }
+\author{Alan Felix \\ Duncan Cummings \\ Jean-Luc Ettienne}
+
+\maketitle
+\section*{Introduction \\}
+
+\par
+        Investing ideology, especially in the 21st century, has been categorized into one of two static categories: Quantitative Trading and Value Investing. The two schools are thought to be distinct in theory and practice.  In reality however, the two borrow ideas and could benefit from knowledge of the other.  The goal of this paper is to improve upon Value Investing methods by utilizing Quantitative Analysis skills.
+        
+        In our group's short exposure to Quantitative Investing, we found that the data processing techniques available would be extraordinarily useful to any investor.  Investing, after all, is a game of making bets against the market given imperfect information.  The ability to obtain more information that your opponents is vital.  Increasing the efficiency of obtaining data is one way to do this.  If our group was able to utilize data science methods to evaluate securities more quickly and accurately, then our firm would hold an edge against other investors.
+        
+        One of our team members, Alan Felix, had the benefit of wokring at a Distressed-Debt Private Equity firm last summer and has been invited back full time.  Per recommendation from our group's advisor, Prof David Kane, we focused on applying quantitative techniques to the Distressed-Debt sphere, a value-oriented style of investing.
+        
+        A Distressed-Debt fund makes its money in buying securities in companies that are in bankrupcy or close to bankruptcy.  A more exact definition describes financial distress as the situation when a company is unable to pay its credit obligations.  Upon recognizing a distressed oppourtunity, investors purchase securities in a company with the intention of one of two outcomes.  In the first scenario, increased financing and improved market conditions are enough to take the company out from underwater.  As the company becomes more profitable, the securities increase in value.  At an undisclosed, future time the firm sells the securities for a profit.  In the second scenario, the company enters bankruptcy and the firm uses its position in the "fulcrum security" to achieve a tactical, controlling role in the company's restructuring process.  Once in a position of control, the firm is able to utilize its management experience and expertise to increase value, oftentimes structuring and negotiating recapitalizations to maximize company profits and financial returns.
+        
+        One key aspect of Distressed-Debt investing is the different metrics used to evalute securities.  In finding and asserting a value to a company's bonds, both a qualitative and quantitative frame of mind is necessary.  Most importantly, a Distressed-Debt investor must be able to identify the "fulcrum security", allowing for control through the bankruptcy process.  This requires qualitative knowledge of bankruptcy law and the experience gained from past investments.  The tools offered by quantitative analysis are difficult to apply here.  Of secondary importance is the valuation of the securities via financial statement data.  In this case, quantitative methods, particularly cleaning and organizing data, are applicable.  The original goal of this project was to automate the acquisition and computation of financial statement data.  Unfortunately, our group was unable to achieve this ambitious goal.  Extracting data directly from the SEC's website proved difficult as it was horribly organized.  Instead, our group developed a package within R that obtains financial statement data from a third-party website (Yahoo Finance).  These functions proved useful in a brief analysis of the company.  In the future, we might attempt to develop a package that allows us to utilize data directly from the SEC, providing us with a much more complete analysis.
+        
+\section*{Metrics We Care About}
+
+        In the Distressed sphere, important investment metrics are calculated from financial statement data.  In processing data from Income Statements, Balance Sheets, and Cash Flow Summaries, investment professionals have traditionally copied the data over by hand into excel.  Using the package QuantMod in R, our group was able to gather data and calculate a handful of the metrics with just an inputted stock ticker.
+
+        The first step in reaching this goal was to obtain financial statement data that resembled the 10-K and 10-Q reports available from the SEC's website.  Like we stated above, this proved to be remarkably difficult.  Our group is indebted to Anthoney Tsou and Ryan Kwon for allowing us to use their code to try and extract this data.  What their code allowed us to do was to utilize the XBRL package in R to read in data from an XML feed found on the SEC's webpage.  It turns out that this level of data-scrapping was a recent endeavor of the financial industry.  As a result, the software is underdeveloped.  Our group oftentimes found ourselves on the "cutting edge", pushing the limits of what data scientists have accomplished in the field.  Due to inconsistencies in the existing software, our group was unable to take in data directly from the SEC.
+        
+        While there are other methods available for extracting financial statement data, they proved less effective.  This is because the databases often condensed specific categories within financial statements to make broader, more easily accessed, categories.  One example is when researching the company Conn's, Inc. third party data base QuantMod, reported broader buckets such as Total Revenues and Gross Profit, but lacked more specific categories like Product Sales, Service Revenues, and Cost of Sales.  Condensing this data made these databases easier to create and maintain but the fact is they strip important information away from the data set.  As a consequence, we were unable perform a complete analysis of the company.  This is why we tightened the scheme of this project to cover only a brief overview; the data just didn't allow for a complete analysis.
+        
+        Once we collected and isolated Income Statement, Balance Sheet, and Cash Flow data, our group was then able to calculate key metrics and present them in an organize fashion.
+        
+        In assessing a company for a long-term investment, it's important to have as much information as possible.  Distressed-Debt, particularly with private companies, is an illiquid business.  Deals are often long and arduous and securities can be held for years at a time.  Since one of the possible outcomes of an investment is the control of a company, pretty much all of the financial statement data is relevant.  We do not limit ourselves to the metrics available from the security price and market capitalization.  Every peice of information is important.  You can never have too much information.
+        
+        In a typical model that a fund would use for evaluation, all of the company's financial statement data from Income Statements, Balance Sheets, and Cash Flow summaries would be listed and organized in an excel document.  A complete model would require financial statements dating at least eight quarters into the past.
+        
+        While Distressed-Debt professionals are interested in all financial aspects of a company, a handful of metrics surface as the most important including: Total Capitalization, Total Debt, Change in Cash Flow, and LTM EBITDA (last twelve months earnings before interest, taxes, depreciation, and amortization).  In the past few weeks, our group developed a package in R containing functions for collecting this data and computing each of these metrics.  Utilizing this package, lets display it's functionality using the company Conn's, Inc. as an example.
+
+\section*{Conn's, Inc.}
+
+        First lets give a little background on Conn's.  Without getting too technical, Conn's is a retailer that focuses on selling appliances, furniture, matresses, and electronics to middle and low class families.  Nearly 80 percent of their sales are extended via credit.  In the wake of the recession and the slow recovery of the middle and lower classes, Conn's customers are defaulting on these loans, leading Conn's to produce less of a profit.
+        
+        Let's use some of our functions to get some rough numbers on Conn's:
+        
+<<echo=FALSE, results=hide>>=
+
+source('~/Desktop/R Workspaces and data/twinhaventest/getCapitalization.R', echo=TRUE)
+
+source('~/Desktop/R Workspaces and data/twinhaventest/getTotalDebtToLTMEbitda.R', echo=TRUE)
+
+source('~/Desktop/R Workspaces and data/twinhaventest/getCash.R', echo=TRUE)
+@
+
+<<echo=TRUE, results=hide>>=
+getCapitalization("CONN")
+@
+
+\begin{table}[ht]
+\centering
+\caption{Capitalization} 
+\begin{tabular}{rrrrr}
+  \hline
+Current Liabilities & Total Debt & Total Liabilities & Shareholder's Equity & Total Capitalization \\ 
+  \hline
+163.34 & 696.70 & 919.33 & 636.68 & 1556.01 \\ 
+   \hline
+\end{tabular}
+\end{table}
+
+
+        This first function "getCapitalization( ticker )" utilizes the R package QuantMod to obtain financial statement data based on the inputted ticker.  It then organizes the data into a readable table.  As long as the ticker is listed in Yahoo Finance, the function should obtain readable output.  Specifically, the function utlizes the xtable package within R to put together a table readable in Latex code.
+
+        You'll note in the Capitalization table that we have organized a number of data points, including: Current Liabilities, Total Debt, Total Liabilities, Share Holder's Equity, and Total Capitalization.  What this function gives us is a rough idea of the scale of the company; insight into how much money are we dealing with a commitment to Conn's.  Current Liabilities include the debts to be paid by the company within a year period.  Total Debt and Total Liabilities include all the company's debts and other financial obligations.  Share Holder's Equity is the value of the stock that has been publicly issued by Conn's.  Total the three figures together and you obtain the Total Capitalization of the company, the grand total of all the securities and secured loans of the company.
+        
+        So what does this table tell us?  Most importantly, this table is an indicator of scale.  Exactly how big is Conn's?  How much are we going to have to invest in the fulcrum security to ensure a controlling position?  Given these numbers and the amount a firm is willing to invest, this may be the only table neccesary in analyzing a prospective investment.  If the position required is larger than what the fund can afford then the investment is unfeasible.  If the investment is in the funds capabilities then this table also paints a picture of the debt structure of the company.  The amount of Current Liabilities with respect to Total Debt tells gives us a better picture of the company's credit obligations.  Here we see that Conn's owes about 700 million in mid 2017.  In addition, it has to pay roughly 160 million over the next year.  These figures are less meaningful without an estimate of how profitable the company currently is, but we'll get to that shortly.
+        
+<<echo=TRUE, results=hide>>=
+getCash("CONN")
+@
+
+\begin{table}[ht]
+\centering
+\caption{Cash Flow Summary} 
+\begin{tabular}{rrrrrr}
+  \hline
+Cash & Capital Expenditures & CF from Ops & CF from Investing & CF from Financing & Change in CF \\ 
+  \hline
+5.76 & -53.12 & -126.79 & -33.71 & 160.54 & 0.04 \\ 
+   \hline
+\end{tabular}
+\end{table}
+
+        Similar to the previous function, "getCash( ticker )" obtains Cash Flow information and exports it as a readable table in latex.
+        
+        This table gives us a number of metrics regarding Conn's Cash Flow.  Simply put, Cash Flow (shortened to "CF") is the amount of money that is generated and used by a company in a given period.  From the point of view of an investor, Cash Flow can indicate the financial strength or weakness of a company.  Ideally, the company has positive Cash Flow, indicating that it makes more money than it spends.  Of equal importance, potential investors would look to see if the company is spending appropriately with regards to Capital Expenditures. Oftentimes in the distressed sphere, appropriate capital investment is something that gets overlooked as money gets tight.  These costs can add up and financiers could be the ones stuck paying a larger price down the road.
+        
+        In analyzing Conn's Cash Flow, a couple things immediately stick out.  Most striking is the negative Cash Flow from Operations.  Their core business is remarkably unprofitable.  Cash Flow from Financing is barely enough to keep them in the green.  Our concern over appropriate capital spending is settled in looking at the CapEx and Cash Flow from Investing.  Management is still willing to spend money on infrastructure.
+        
+<<echo=TRUE, results=hide>>=
+getTotalDebtToLTMEbitda("CONN")
+@
+
+\begin{table}[ht]
+\centering
+\caption{Total Debt and LTM EBITDA} 
+\begin{tabular}{rrr}
+  \hline
+Total Debt & LTM EBITDA & Total Debt / LTM EBITDA \\ 
+  \hline
+696.70 &  &  \\ 
+   \hline
+\end{tabular}
+\end{table}
+
+        This third function "getTotalDebtToLTMEBITDA( ticker )" is similiar to the other functions.  It obtains data and organizes it into a latex-readable table.  Unlike the other functions, it does some arithmatic to calculate LTM EBITDA and the Total Debt to LTM EBITDA ratio.
+        
+        The first thing you'll notice about this table is that it is incomplete.  This is because of incomplete data.  Since this function requries data going as far back as four quarters (the other functions only go back one quarter) there is a higher probability that there will be missing data.  This is unfortunate but a reality when working with third party data sets.  Fortunately for our group, we did find comapnies with complete data that we will analyze later in the paper.
+        
+        Nonetheless we'll run through each statistic and explain why it is important to a value investor.  Total Debt is the sum of all the secured debt and public debt issued by a company.  Similiar to the Capitalization Structure, the total gives an investor an idea of how much the company owes and will owe.  It's also an indicator of how much additional financing the company can or will recieve in the short term.  LTM EBITDA (last twelve months earnings before interest, taxes, depreciation, and amortization) is likely the most important metric when considering an investment.  In non-technical terms, LTM EBITDA is a reflection of raw profitability.  Companies oftentimes make different accounting decisions based on preference and where the Company stands at the present time.  EBITDA allows for a uniform evaluation from company to company as it ignores these accounting decisions.  Much like other metrics, its important to realize that EBITDA is biased in certain situations and weigh it alongside other metrics.
+        
+        Lastly, the ratio of Total Debt to LTM EBITDA gives an idea of the trading levels of the company's securities.  It is a unitless figure and is typically somewhere in the 2.0 to 8.0 range.  Among other things, it stands as a benchmark for how the market is treating the company's securities.  If the ratio is low, then the market does not think highly of the company and their bonds are not in high demand.  If the ratio is high, then the market favors the company and is looking to buy and hold.  In the Distressed-Debt sphere, the lower the ratio (and the coinciding lack of market approval) the larger the potential return.  Given favorable metrics else where, Distressed-Debtors would prefer to buy at a low ratio.  Again, its important to remember that a low ratio also indiciates a poorly functioning company.  The market may not like the securities because the company is garbage.  To buy solely on the basis of the ratio is insane.  It's just one part of the greater picture.
+        
+\section*{A sample oil company: ANW}
+
+        Now that we have an idea of our group's package and how an investor views these various metrics, lets apply this knowledge in analysis of a Greek petroleum company named Aegean Marine, ticker ANW.
+        
+        Some brief background on why our group chose ANW.  Per recomendation from our advisor, we looked into petroleum companies as since June 2014, the price of a barrel of oil has been cut in half.  Our group's current thesis is that this decrease has directly affected the profitability of oil companies.  Given the economic crisis in Greece, the distress may be magnified with Aegean Marine. Lets take a look:
+        
+<<echo=TRUE, results=hide>>=
+getCapitalization("ANW")
+@
+        
+\begin{table}[ht]
+\centering
+\caption{Capitalization} 
+\begin{tabular}{rrrrr}
+  \hline
+Current Liabilities & Total Debt & Total Liabilities & Shareholder's Equity & Total Capitalization \\ 
+  \hline
+709.36 & 892.94 & 1104.18 & 557.59 & 1661.77 \\ 
+   \hline
+\end{tabular}
+\end{table}
+        
+<<echo=TRUE, results=hide>>=
+getCash("ANW")
+@        
+        
+\begin{table}[ht]
+\centering
+\caption{Cash Flow Summary} 
+\begin{tabular}{rrrrrr}
+  \hline
+Cash & Capital Expenditures & CF from Ops & CF from Investing & CF from Financing & Change in CF \\ 
+  \hline
+117.58 & -44.63 & -12.31 & -33.54 & 103.43 & 57.58 \\ 
+   \hline
+\end{tabular}
+\end{table}
+
+<<echo=TRUE, results=hide>>=
+getTotalDebtToLTMEbitda("ANW")
+@  
+
+\begin{table}[ht]
+\centering
+\caption{Total Debt and LTM EBITDA} 
+\begin{tabular}{rrr}
+  \hline
+Total Debt & LTM EBITDA & Total Debt / LTM EBITDA \\ 
+  \hline
+892.94 & 149.55 & 5.97 \\ 
+   \hline
+\end{tabular}
+\end{table}
+
+        Like we did with Conn's, lets first evaluate the scale of Aegean Marine via the Capitalization Table.  Note that these numbers are in hundreds of thousands, so when we talk about ANW we are talking on the scale of millions.  ANW is remarkably similiar to the size of Conn's in terms of Total Capitalization but, in comparison, carries significantly more debt (roughly 200 million more).  With this broad outlook, if your hypothetical fund was capable of affording an investment in Conn's (given the current evaluation) then it is highly likely it can afford Aegean Marine too.  With more debt available, there is a chance that an investment into ANW might be more expensive as a controling stake would cost more.  If Conn's was out of your funds reach, then ANW is almost certainly as well.
+
+        Looking at the Cash Flow metrics, its clear that ANW loses money in operations but isn't as nearly in bad of a spot than Conn's.  Note that while they do lose money, they also have a significant amount of cash on hand and approriate financing.  Also of note, they do not neglect CapEx.  This is particularly important with regard to the oil industry as it is a capital intense business.  Whether or not they are underspending is a bit of an educated guess.  A better approach would be to compare their spending with other companies across the industry.  What I'm trying to conclude here is that they are in fact spending on CapEx.  The positive (roughly 60 million) in Cash Flow is also intriuging.  It actually makes me believe that the company might not even be fully distressed yet.  This is something, that given this rough glance, that we would investigate further with more qualitative analysis.  We wouldn't want to catch a falling knife.
+        
+        In the EBITDA chart the first thing you'll notice is the fact that it has complete data.  This is the way it would ideally formatted.  In looking at these numbers, the most pertinent piece of data is the ratio.  ANW's securities are trading at 6 times total debt to LTM EBITDA.  In our groups limited exposure to the ditress market, this seems particularly high and indicative of the strong market we've been witnessing in the past (roughly) two years.  This is likely a deal the our group would continue to research and keep on the table but not move in on until we saw more favorable trading levels.  A ratio of 4 or 5 would be a lot more attractive.
+        
+\section*{Conclusion}
+        
+        In the past few sections we've introduced a package of functions that are good at obtaining perliminary numbers in a presentable format.  What our group was unable to accomplish was the automation of a complete data set.  The hope is that with better software we will be able to achieve (or get really close to achieving) full automation.
+        
+        Lastly, our group would like to acknowledge that although we in a sense did "fail" to achieve our goal, we feel as though we have laid solid ground work as to merging these two static schools of thought.  In applying R to Distressed-Debt we have seen the potential for increased efficiency if we were ever to compile complete data sets from the SEC.  Most importantly, we have gained exposure to both, widening our perspective as investors.
+        
+\end{document}

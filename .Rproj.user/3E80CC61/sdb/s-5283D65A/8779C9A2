@@ -1,0 +1,17 @@
+{
+    "contents" : "getCapitalization <- function( ticker ){\n        \n        ## load librarys\n        library(quantmod)\n        library(xtable)\n        \n        ## download and store data\n        inter <- getFinancials(ticker, src = \"yahoo\", auto.assign = FALSE)\n        BS_A <- viewFinancials(inter, \"BS\", \"A\")\n        BS_Q <- viewFinancials(inter, \"BS\", \"Q\")\n        IS_A <- viewFinancials(inter, \"IS\", \"A\")\n        IS_Q <- viewFinancials(inter, \"IS\", \"Q\")\n        CF_A <- viewFinancials(inter, \"CF\", \"A\")\n        CF_Q <- viewFinancials(inter, \"CF\", \"Q\")\n        \n        ## obtain current liabilities, total debt, total liabilities, stockholder's equity\n        currentliabilities <- BS_Q[\"Total Current Liabilities\",1]\n        totaldebt <- BS_Q[\"Total Debt\", 1]\n        totalliabilities <- BS_Q[\"Total Liabilities\", 1]\n        shareholdersequity <- BS_Q[\"Total Equity\",1]\n        capitalization = totalliabilities + shareholdersequity\n        \n        ## turn it into a data frame\n        df <- data.frame(currentliabilities, totaldebt, totalliabilities, shareholdersequity, capitalization)\n        colnames(df) <- c(\"Current Liabilities\", \"Total Debt\",\n                          \"Total Liabilities\", \"Shareholder's Equity\", \"Total Capitalization\")\n        \n        xtab <- xtable(df, caption = \"Capitalization in Millions\")\n        \n        print.xtable(xtab, include.rownames = FALSE, caption.placement = \"top\")\n        \n}",
+    "created" : 1423103340233.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "267818210",
+    "id" : "8779C9A2",
+    "lastKnownWriteTime" : 1423103368,
+    "path" : "~/Desktop/R Workspaces and data/TwinHaven/R/getCapitalization.R",
+    "project_path" : "R/getCapitalization.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}

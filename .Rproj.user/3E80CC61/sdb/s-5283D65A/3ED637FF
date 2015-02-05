@@ -1,0 +1,17 @@
+{
+    "contents" : "getCash <- function( ticker ){\n        \n        ## load librarys\n        library(quantmod)\n        library(xtable)\n        \n        ## download and store data\n        inter <- getFinancials(ticker, src = \"yahoo\", auto.assign = FALSE)\n        BS_A <- viewFinancials(inter, \"BS\", \"A\")\n        BS_Q <- viewFinancials(inter, \"BS\", \"Q\")\n        IS_A <- viewFinancials(inter, \"IS\", \"A\")\n        IS_Q <- viewFinancials(inter, \"IS\", \"Q\")\n        CF_A <- viewFinancials(inter, \"CF\", \"A\")\n        CF_Q <- viewFinancials(inter, \"CF\", \"Q\")\n        \n        ## obtain cash, capex, and cashflow numbers\n        cash <- BS_Q[\"Cash & Equivalents\",1]\n        capex <- CF_Q[\"Capital Expenditures\",1]\n        opCF <- CF_Q[\"Cash from Operating Activities\",1]\n        inCF <- CF_Q[\"Cash from Investing Activities\",1]\n        finCF <- CF_Q[\"Cash from Financing Activities\",1]\n        changeinCF = sum(opCF, inCF, finCF)\n        \n        ## turn it into a data frame\n        df <- data.frame(cash, capex, opCF, inCF, finCF, changeinCF)\n        colnames(df) <- c(\"Cash\", \"Capital Expenditures\",\n                          \"CF from Ops\", \"CF from Investing\", \"CF from Financing\", \"Change in CF\")\n        \n        xtab <- xtable(df, caption = \"Cash Flow Summary in Millions\")\n        \n        print.xtable(xtab, include.rownames = FALSE, caption.placement = \"top\")\n        \n}",
+    "created" : 1423103370953.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "997608437",
+    "id" : "3ED637FF",
+    "lastKnownWriteTime" : 1423103387,
+    "path" : "~/Desktop/R Workspaces and data/TwinHaven/R/getCash.R",
+    "project_path" : "R/getCash.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}

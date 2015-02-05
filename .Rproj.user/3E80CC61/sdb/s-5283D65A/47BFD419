@@ -1,0 +1,17 @@
+{
+    "contents" : "getQuickRatio <- function( ticker ){\n        \n        ## load librarys\n        library(quantmod)\n        library(xtable)\n        \n        ## download and store data\n        inter <- getFinancials(ticker, src = \"yahoo\", auto.assign = FALSE)\n        BS_A <- viewFinancials(inter, \"BS\", \"A\")\n        BS_Q <- viewFinancials(inter, \"BS\", \"Q\")\n        IS_A <- viewFinancials(inter, \"IS\", \"A\")\n        IS_Q <- viewFinancials(inter, \"IS\", \"Q\")\n        CF_A <- viewFinancials(inter, \"CF\", \"A\")\n        CF_Q <- viewFinancials(inter, \"CF\", \"Q\")\n        \n        ## obtain current assets, total inventory, current liabilities, and quick ratio\n        currentassets <- BS_Q[\"Total Current Assets\",1]\n        totalinventory <- BS_Q[\"Total Inventory\",1]\n        currentliabilities <- BS_Q[\"Total Current Liabilities\",1]\n        quickratio <- (currentassets - totalinventory) / currentliabilities\n        \n        ## turn it into a data frame\n        df <- data.frame(currentassets, totalinventory, currentliabilities, quickratio)\n        \n        df <- data.frame(t(df), row.names = c(\"Current Assets\", \"Total Inventory\", \"Current Liabilities\", \"Quick Ratio\"))\n        \n        xtable(df)\n}",
+    "created" : 1423103534372.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3500681393",
+    "id" : "47BFD419",
+    "lastKnownWriteTime" : 1423103542,
+    "path" : "~/Desktop/R Workspaces and data/TwinHaven/R/getQuickRatio.R",
+    "project_path" : "R/getQuickRatio.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}

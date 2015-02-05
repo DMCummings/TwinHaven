@@ -1,0 +1,15 @@
+Package: TwinHaven
+Type: Package
+Title: Quantitative Equity Analysis Applied to Value-Oriented Investing
+Version: 1.0.1
+Date: 2015-02-04
+Author: Alan Felix, Duncan Cummings, Jean-Luc Etienne
+Maintainer: <acf2@williams.edu>
+Description: Sweave formatted paper and associated functions
+License: GPL-3
+LazyData: TRUE
+VignetteBuilder: knitr
+Suggests: knitr
+Depends:
+        quantmod,
+        xtable

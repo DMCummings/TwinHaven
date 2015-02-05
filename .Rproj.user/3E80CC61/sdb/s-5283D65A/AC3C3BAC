@@ -1,0 +1,17 @@
+{
+    "contents" : "getCurrentRatio <- function( ticker ){\n        \n        ## load librarys\n        library(quantmod)\n        library(xtable)\n        \n        ## download and store data\n        inter <- getFinancials(ticker, src = \"yahoo\", auto.assign = FALSE)\n        BS_A <- viewFinancials(inter, \"BS\", \"A\")\n        BS_Q <- viewFinancials(inter, \"BS\", \"Q\")\n        IS_A <- viewFinancials(inter, \"IS\", \"A\")\n        IS_Q <- viewFinancials(inter, \"IS\", \"Q\")\n        CF_A <- viewFinancials(inter, \"CF\", \"A\")\n        CF_Q <- viewFinancials(inter, \"CF\", \"Q\")\n        \n        ## obtain current assets, current liabilities, and current ratio\n        currentassets <- BS_Q[\"Total Current Assets\",1]\n        currentliabilities <- BS_Q[\"Total Current Liabilities\",1]\n        currentratio <- currentassets/currentliabilities\n        \n        ## turn it into a data frame\n        df <- data.frame(currentassets, currentliabilities, currentratio)\n        \n        df <- data.frame(t(df), row.names = c(\"Current Assets\", \"Current Liabilities\", \"Current Ratio\"))\n        \n        xtable(df)\n}",
+    "created" : 1423103505008.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "455698658",
+    "id" : "AC3C3BAC",
+    "lastKnownWriteTime" : 1423103516,
+    "path" : "~/Desktop/R Workspaces and data/TwinHaven/R/getCurrentRatio.R",
+    "project_path" : "R/getCurrentRatio.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}
